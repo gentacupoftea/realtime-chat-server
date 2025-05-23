@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: multillm-chat-server
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: node realtime_chat_server_simple.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production
