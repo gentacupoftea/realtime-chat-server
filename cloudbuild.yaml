@@ -1,0 +1,36 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/multillm-chat-server/chat-server:$COMMIT_SHA', '.']
+  
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/multillm-chat-server/chat-server:$COMMIT_SHA']
+  
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'multillm-chat-server'
+      - '--image'
+      - 'gcr.io/multillm-chat-server/chat-server:$COMMIT_SHA'
+      - '--region'
+      - 'asia-northeast1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8080'
+      - '--memory'
+      - '512Mi'
+      - '--cpu'
+      - '1'
+      - '--max-instances'
+      - '10'
+      - '--min-instances'
+      - '0'
+
+images:
+  - 'gcr.io/multillm-chat-server/chat-server:$COMMIT_SHA'

@@ -311,7 +311,7 @@ if (require.main === module) {
     corsOrigin: ['http://localhost:3000', 'https://multillm-demo-2025.web.app'],
   });
   
-  const PORT = process.env.PORT || 3001;
+  const PORT = process.env.PORT || 8080;
   
   server.listen(PORT, () => {
     console.log(`🚀 Realtime Chat Server running on port ${PORT}`);
